@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/Lesson4/Generic/Generic.iml" filepath="$PROJECT_DIR$/Lesson4/Generic/Generic.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lesson4/IO/IO.iml" filepath="$PROJECT_DIR$/Lesson4/IO/IO.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lesson4/Lesson4.iml" filepath="$PROJECT_DIR$/Lesson4/Lesson4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lesson7-SpringSecurity/Lesson7-SpringSecurity.iml" filepath="$PROJECT_DIR$/Lesson7-SpringSecurity/Lesson7-SpringSecurity.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lesson4/Reflect/Reflect.iml" filepath="$PROJECT_DIR$/Lesson4/Reflect/Reflect.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lesson4/Thread/Thread.iml" filepath="$PROJECT_DIR$/Lesson4/Thread/Thread.iml" />
     </modules>
