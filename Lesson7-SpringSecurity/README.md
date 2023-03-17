@@ -322,7 +322,114 @@ OK到这里，我们的登陆功能就写完力(ง •̀_•́)ง
 
 可以看到，返回来我们封装的UserResponse
 
+现在我们的登陆已经完成力～
 
+在我们登陆过后，想要访问那些需要授权认证的接口的时候，还需要一个拦截器：`JwtAuthenticationTokenFilter`这个自定义拦截器继承了`OncePerRequestFilter`，实现了`doFilterInternal`方法
+
+```java
+package com.yxyl.springboot.filter;
+
+import com.yxyl.springboot.model.auth.LoginUser;
+import com.yxyl.springboot.utils.JwtUtil;
+import com.yxyl.springboot.utils.RedisCache;
+import io.jsonwebtoken.Claims;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.annotation.Resource;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+
+@Component
+public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+
+    private static final String REDIS_KEY = "USER_LOGIN:";
+    @Resource
+    RedisCache redisCache;
+
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
+        //这里就是重写拦截方法
+        try {
+            //取出 header 中的 token 进行校验
+            String token = request.getHeader("token");
+            if (token != null && !"".equals(token)) {
+                //解析获取userId
+                Claims claims = JwtUtil.parseJWT(token);
+                String studentId = claims.getSubject();
+                //通过userID获取redis中的缓存信息
+                LoginUser loginUser = redisCache.getCacheObject(REDIS_KEY + studentId);
+                if (loginUser != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    //token失效了
+                    //刷新令牌
+                    redisCache.setCacheObject(REDIS_KEY + studentId, loginUser);
+                    //从redis中获取loginUse信息放到上下文中
+                    UsernamePasswordAuthenticationToken
+                            authenticationToken = new UsernamePasswordAuthenticationToken(loginUser.getUser().getId(), loginUser.getPassword());
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
+            }
+        } catch (Exception e) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        // 如果token为空直接下一步过滤器，此时上线文中无用户信息，所有在后续认证环节失败
+        filterChain.doFilter(request, response);
+    }
+}
+```
+
+写完拦截器过后，别忘了在配置类中配置这个拦截器：
+
+```java
+@Resource
+private JwtAuthenticationTokenFilter authenticationTokenFilter;
+
+ @Override
+    protected void configure(HttpSecurity http) throws Exception {
+		//...
+        //添加前置过滤波器
+        http.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.formLogin()
+                .usernameParameter("id").disable();
+		//..
+    }
+```
+
+Ok这个时候我们的拦截器就配置完成力
+
+> 综上，我们的认证过程，总之解释要获取`authenticate`认证：
+>
+> - 自定义登录接口
+>   1. 定义LoginController，调用LoginService接口
+>   2. service里调用**`AuthenticationManager`**的**`authenticate`**方法获得**`Authentication`**对象，其中传入参数**`UsernamePasswordAuthenticationToken`**
+>      1. 参数**`UsernamePasswordAuthenticationToken`** 用 **`new`**的；参数为**用户名账号密码**
+>   3. 得到**`Authentication`**后调用**`getPrincipal`**方法获取**`LoginUser`**对象
+>   4. **`LoginUser`**对象得到**`User`**进行验证
+>   5. 调用**`ProviderManager`**的方法进行认证，通过则生成jwt
+>   6. 把用户信息存入redis
+> - 定义Jwt认证过滤器
+>   1. 获取token
+>   2. 解析token获取其中的userid
+>   3. 从redis中获取用户信息
+>   4. 存入SecurityContextHolder
+> - 退出登录
+>   1. 从SecurityContextHolder中的获取认证信息
+>   2. 拿到userId
+>   3. 删除redis中对应的数据即可。
+
+## 留个小作业
+
+1. 这里我们介绍了怎么通过Security进行认证的过程，请你下来自己研究授权的过程，比如哪些接口只能哪些角色的用户才能访问之类的……
 
 
 

@@ -1,31 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="67597704-e985-43ec-a394-5b92e65b00da" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Lesson4/Exception/src/Demo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Lesson4/Exception/src/Student.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Lesson4/Reflect/src/Test.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Lesson4/Thread/src/Counter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Lesson4/Thread/src/MyRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lesson4/Exception/src/MeiQianException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson4/Exception/src/MeiQianException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lesson4/Generic/src/Demo1.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson4/Generic/src/Demo1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lesson4/Generic/src/GenericException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson4/Generic/src/GenericException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lesson4/Generic/src/GenericsExample.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson4/Generic/src/GenericsExample.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lesson4/Reflect/src/entity/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson4/Reflect/src/entity/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lesson4/Thread/src/RunThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson4/Thread/src/RunThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lesson4/Thread/src/TheadPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson4/Thread/src/TheadPool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Exception/MeiQianException$AccountAdmin.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Exception/MeiQianException$AccountAdmin.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Exception/MeiQianException.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Exception/MeiQianException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Generic/Demo1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Generic/Demo1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/IO/Byte.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IO/Byte.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/IO/CopyPhoto.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/IO/CopyPhoto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Thread/RunThread$MyCallable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Thread/RunThread$MyCallable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Thread/RunThread$MyRunable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Thread/RunThread$MyRunable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Thread/RunThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Thread/RunThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Thread/TheadPool.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Thread/TheadPool.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Thread/UnSafe$Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Thread/UnSafe$Test.class" afterDir="false" />
-    </list>
+    <list default="true" id="67597704-e985-43ec-a394-5b92e65b00da" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,10 +23,7 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="localRepository" value="D:\MavenDownload" />
-        <option name="mavenHome" value="D:/maven/apache-maven-3.8.6" />
         <option name="useMavenConfig" value="true" />
-        <option name="userSettingsFile" value="D:\maven\apache-maven-3.8.6\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -63,6 +39,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;11&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/yxyl/文档/GitHub/Courseware-Backend-Java-2022&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.12597656&quot;,
@@ -71,7 +48,12 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.Test">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.SpringSecurityApplication">
     <configuration name="Counter$Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Counter$Test" />
       <module name="Thread" />
@@ -136,6 +118,7 @@
       <workItem from="1669085984013" duration="13536000" />
       <workItem from="1669171925557" duration="23000" />
       <workItem from="1669548000232" duration="6894000" />
+      <workItem from="1678943607470" duration="79000" />
     </task>
     <servers />
   </component>
