@@ -21,13 +21,13 @@ Spring Security是一个专注于为Java应用程序提供身份验证和授权�
 
 注意：这里请导 springboot 3.0 以下版本的依赖
 
-![image-20230314184002953](/home/yxyl/.config/Typora/typora-user-images/image-20230314184002953.png)
+![image-20230314184002953](./img/image-20230314184002953.png)
 
 然后我们启动项目，并且访问这个接口：`localhost:8080/hello`
 
 本来应该出现hello字符串返回的，但是页面却出现了让我们的登陆的界面：
 
-![image-20230314184311328](/home/yxyl/.config/Typora/typora-user-images/image-20230314184311328.png)
+![image-20230314184311328](./img/image-20230314184311328.png)
 
 这生活你就回想：
 
@@ -35,7 +35,7 @@ Spring Security是一个专注于为Java应用程序提供身份验证和授权�
 
 诶～，别急，细心的你已经发现了，在控制台已经输出了我们想要的password：
 
-![image-20230314184534140](/home/yxyl/.config/Typora/typora-user-images/image-20230314184534140.png)
+![image-20230314184534140](./img/image-20230314184534140.png)
 
 然后username：user
 
@@ -43,7 +43,7 @@ Spring Security是一个专注于为Java应用程序提供身份验证和授权�
 
 在输入username,password过后，我们就可以看到想看到的hello了
 
-![image-20230314184734793](/home/yxyl/.config/Typora/typora-user-images/image-20230314184734793.png)
+![image-20230314184734793](./img/image-20230314184734793.png)
 
 当然，如果你想自己设置密码的话：
 
@@ -318,7 +318,7 @@ OK到这里，我们的登陆功能就写完力(ง •̀_•́)ง
 
 我们来测试一下吧：
 
-![image-20230316110831099](/home/yxyl/.config/Typora/typora-user-images/image-20230316110831099.png)
+![image-20230316110831099](./img/image-20230316110831099.png)
 
 可以看到，返回来我们封装的UserResponse
 
@@ -427,9 +427,492 @@ Ok这个时候我们的拦截器就配置完成力
 >   2. 拿到userId
 >   3. 删除redis中对应的数据即可。
 
-## 留个小作业
+### 留个小作业
 
 1. 这里我们介绍了怎么通过Security进行认证的过程，请你下来自己研究授权的过程，比如哪些接口只能哪些角色的用户才能访问之类的……
 
 
+
+## StreamApi
+
+
+
+## Stream流
+
+### 概述
+
+​	Java8的Stream使用的是函数式编程模式，如同它的名字一样，它可以被用来对集合或数组进行链状流式的操作。可以更方便的让我们对集合或数组操作。
+
+
+
+### 案例数据准备
+
+~~~~xml
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.16</version>
+        </dependency>
+    </dependencies>
+~~~~
+
+
+
+~~~~java
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode//用于后期的去重使用
+public class Author {
+    //id
+    private Long id;
+    //姓名
+    private String name;
+    //年龄
+    private Integer age;
+    //简介
+    private String intro;
+    //作品
+    private List<Book> books;
+}
+~~~~
+
+~~~~java
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode//用于后期的去重使用
+public class Book {
+    //id
+    private Long id;
+    //书名
+    private String name;
+
+    //分类
+    private String category;
+
+    //评分
+    private Integer score;
+
+    //简介
+    private String intro;
+
+}
+~~~~
+
+~~~~java
+    private static List<Author> getAuthors() {
+        //数据初始化
+        Author author = new Author(1L,"蒙多",33,"一个从菜刀中明悟哲理的祖安人",null);
+        Author author2 = new Author(2L,"亚拉索",15,"狂风也追逐不上他的思考速度",null);
+        Author author3 = new Author(3L,"易",14,"是这个世界在限制他的思维",null);
+        Author author4 = new Author(3L,"易",14,"是这个世界在限制他的思维",null);
+
+        //书籍列表
+        List<Book> books1 = new ArrayList<>();
+        List<Book> books2 = new ArrayList<>();
+        List<Book> books3 = new ArrayList<>();
+
+        books1.add(new Book(1L,"刀的两侧是光明与黑暗","哲学,爱情",88,"用一把刀划分了爱恨"));
+        books1.add(new Book(2L,"一个人不能死在同一把刀下","个人成长,爱情",99,"讲述如何从失败中明悟真理"));
+
+        books2.add(new Book(3L,"那风吹不到的地方","哲学",85,"带你用思维去领略世界的尽头"));
+        books2.add(new Book(3L,"那风吹不到的地方","哲学",85,"带你用思维去领略世界的尽头"));
+        books2.add(new Book(4L,"吹或不吹","爱情,个人传记",56,"一个哲学家的恋爱观注定很难把他所在的时代理解"));
+
+        books3.add(new Book(5L,"你的剑就是我的剑","爱情",56,"无法想象一个武者能对他的伴侣这么的宽容"));
+        books3.add(new Book(6L,"风与剑","个人传记",100,"两个哲学家灵魂和肉体的碰撞会激起怎么样的火花呢？"));
+        books3.add(new Book(6L,"风与剑","个人传记",100,"两个哲学家灵魂和肉体的碰撞会激起怎么样的火花呢？"));
+
+        author.setBooks(books1);
+        author2.setBooks(books2);
+        author3.setBooks(books3);
+        author4.setBooks(books3);
+
+        List<Author> authorList = new ArrayList<>(Arrays.asList(author,author2,author3,author4));
+        return authorList;
+    }
+~~~~
+
+
+
+### 快速入门
+
+#### 需求
+
+​	我们可以调用getAuthors方法获取到作家的集合。现在需要打印所有年龄小于18的作家的名字，并且要注意去重。
+
+#### 实现
+
+~~~~java
+        //打印所有年龄小于18的作家的名字，并且要注意去重
+        List<Author> authors = getAuthors();
+        authors.
+                stream()//把集合转换成流
+                .distinct()//先去除重复的作家
+                .filter(author -> author.getAge()<18)//筛选年龄小于18的
+                .forEach(author -> System.out.println(author.getName()));//遍历打印名字
+~~~~
+
+
+
+### 常用操作
+
+#### 创建流
+
+单列集合： `集合对象.stream()`
+
+~~~~java
+        List<Author> authors = getAuthors();
+		Stream<Author> stream = authors.stream();
+~~~~
+
+数组：`Arrays.stream(数组) `或者使用`Stream.of`来创建
+
+~~~~JAVA
+        Integer[] arr = {1,2,3,4,5};
+        Stream<Integer> stream = Arrays.stream(arr);
+        Stream<Integer> stream2 = Stream.of(arr);
+~~~~
+
+双列集合：转换成单列集合后再创建
+
+~~~~java
+        Map<String,Integer> map = new HashMap<>();
+        map.put("蜡笔小新",19);
+        map.put("黑子",17);
+        map.put("日向翔阳",16);
+
+        Stream<Map.Entry<String, Integer>> stream = map.entrySet().stream();
+~~~~
+
+
+
+#### 中间操作
+
+##### filter
+
+​	可以对流中的元素进行条件过滤，符合过滤条件的才能继续留在流中。
+
+
+
+例如：
+
+​	打印所有姓名长度大于1的作家的姓名
+
+~~~~java
+        List<Author> authors = getAuthors();
+        authors.stream()
+                .filter(author -> author.getName().length()>1)
+                .forEach(author -> System.out.println(author.getName()));
+~~~~
+
+
+
+##### map
+
+​	可以把对流中的元素进行计算或转换。
+
+例如：
+
+​	打印所有作家的姓名
+
+~~~~java
+        List<Author> authors = getAuthors();
+
+        authors
+                .stream()
+                .map(author -> author.getName())
+                .forEach(name->System.out.println(name));
+~~~~
+
+~~~~java
+//        打印所有作家的姓名
+        List<Author> authors = getAuthors();
+
+//        authors.stream()
+//                .map(author -> author.getName())
+//                .forEach(s -> System.out.println(s));
+
+        authors.stream()
+                .map(author -> author.getAge())
+                .map(age->age+10)
+                .forEach(age-> System.out.println(age));
+~~~~
+
+
+
+
+
+##### distinct
+
+​	可以去除流中的重复元素。
+
+
+
+例如：
+
+​	打印所有作家的姓名，并且要求其中不能有重复元素。
+
+~~~~java
+        List<Author> authors = getAuthors();
+        authors.stream()
+                .distinct()
+                .forEach(author -> System.out.println(author.getName()));
+~~~~
+
+
+
+**注意：distinct方法是依赖Object的equals方法来判断是否是相同对象的。所以需要注意重写equals方法。**
+
+
+
+##### sorted
+
+​	可以对流中的元素进行排序。
+
+例如：
+
+​	对流中的元素按照年龄进行降序排序，并且要求不能有重复的元素。
+
+~~~~java
+        List<Author> authors = getAuthors();
+//        对流中的元素按照年龄进行降序排序，并且要求不能有重复的元素。
+        authors.stream()
+                .distinct()
+                .sorted()
+                .forEach(author -> System.out.println(author.getAge()));
+~~~~
+
+~~~~java
+        List<Author> authors = getAuthors();
+//        对流中的元素按照年龄进行降序排序，并且要求不能有重复的元素。
+        authors.stream()
+                .distinct()
+                .sorted((o1, o2) -> o2.getAge()-o1.getAge())
+                .forEach(author -> System.out.println(author.getAge()));
+~~~~
+
+
+
+**注意：如果调用空参的sorted()方法，需要流中的元素是实现了Comparable。**
+
+​		
+
+
+
+##### limit	
+
+​	可以设置流的最大长度，超出的部分将被抛弃。
+
+
+
+例如：
+
+​	对流中的元素按照年龄进行降序排序，并且要求不能有重复的元素,然后打印其中年龄最大的两个作家的姓名。
+
+~~~~java
+        List<Author> authors = getAuthors();
+        authors.stream()
+                .distinct()
+                .sorted()
+                .limit(2)
+                .forEach(author -> System.out.println(author.getName()));
+~~~~
+
+
+
+##### skip
+
+​	跳过流中的前n个元素，返回剩下的元素
+
+
+
+例如：
+
+​	打印除了年龄最大的作家外的其他作家，要求不能有重复元素，并且按照年龄降序排序。
+
+~~~~java
+//        打印除了年龄最大的作家外的其他作家，要求不能有重复元素，并且按照年龄降序排序。
+        List<Author> authors = getAuthors();
+        authors.stream()
+                .distinct()
+                .sorted()
+                .skip(1)
+                .forEach(author -> System.out.println(author.getName()));
+~~~~
+
+
+
+
+
+
+
+##### flatMap
+
+​	map只能把一个对象转换成另一个对象来作为流中的元素。而flatMap可以把一个对象转换成多个对象作为流中的元素。
+
+
+
+例一：
+
+​	打印所有书籍的名字。要求对重复的元素进行去重。
+
+~~~~java
+//        打印所有书籍的名字。要求对重复的元素进行去重。
+        List<Author> authors = getAuthors();
+
+        authors.stream()
+                .flatMap(author -> author.getBooks().stream())
+                .distinct()
+                .forEach(book -> System.out.println(book.getName()));
+~~~~
+
+
+
+例二：
+
+​	打印现有数据的所有分类。要求对分类进行去重。不能出现这种格式：哲学,爱情
+
+~~~~java
+//        打印现有数据的所有分类。要求对分类进行去重。不能出现这种格式：哲学,爱情     爱情
+        List<Author> authors = getAuthors();
+        authors.stream()
+                .flatMap(author -> author.getBooks().stream())
+                .distinct()
+                .flatMap(book -> Arrays.stream(book.getCategory().split(",")))
+                .distinct()
+                .forEach(category-> System.out.println(category));
+~~~~
+
+
+
+
+
+#### 终结操作
+
+##### forEach
+
+​	对流中的元素进行遍历操作，我们通过传入的参数去指定对遍历到的元素进行什么具体操作。
+
+
+
+例子：
+
+​	输出所有作家的名字
+
+~~~~java
+//        输出所有作家的名字
+        List<Author> authors = getAuthors();
+
+        authors.stream()
+                .map(author -> author.getName())
+                .distinct()
+                .forEach(name-> System.out.println(name));
+
+~~~~
+
+
+
+
+
+##### count
+
+​	可以用来获取当前流中元素的个数。
+
+例子：
+
+​	打印这些作家的所出书籍的数目，注意删除重复元素。
+
+~~~~java
+//        打印这些作家的所出书籍的数目，注意删除重复元素。
+        List<Author> authors = getAuthors();
+
+        long count = authors.stream()
+                .flatMap(author -> author.getBooks().stream())
+                .distinct()
+                .count();
+        System.out.println(count);
+~~~~
+
+
+
+
+
+##### max&min
+
+​	可以用来或者流中的最值。
+
+例子：
+
+​	分别获取这些作家的所出书籍的最高分和最低分并打印。
+
+~~~~java
+//        分别获取这些作家的所出书籍的最高分和最低分并打印。
+        //Stream<Author>  -> Stream<Book> ->Stream<Integer>  ->求值
+
+        List<Author> authors = getAuthors();
+        Optional<Integer> max = authors.stream()
+                .flatMap(author -> author.getBooks().stream())
+                .map(book -> book.getScore())
+                .max((score1, score2) -> score1 - score2);
+
+        Optional<Integer> min = authors.stream()
+                .flatMap(author -> author.getBooks().stream())
+                .map(book -> book.getScore())
+                .min((score1, score2) -> score1 - score2);
+        System.out.println(max.get());
+        System.out.println(min.get());
+~~~~
+
+
+
+
+
+
+
+##### collect
+
+​	把当前流转换成一个集合。
+
+
+
+例子：
+
+​	获取一个存放所有作者名字的List集合。
+
+~~~~java
+//        获取一个存放所有作者名字的List集合。
+        List<Author> authors = getAuthors();
+        List<String> nameList = authors.stream()
+                .map(author -> author.getName())
+                .collect(Collectors.toList());
+        System.out.println(nameList);
+~~~~
+
+​	获取一个所有书名的Set集合。
+
+~~~~java
+//        获取一个所有书名的Set集合。
+        List<Author> authors = getAuthors();
+        Set<Book> books = authors.stream()
+                .flatMap(author -> author.getBooks().stream())
+                .collect(Collectors.toSet());
+
+        System.out.println(books);
+~~~~
+
+​	获取一个Map集合，map的key为作者名，value为List<Book>
+
+~~~~java
+//        获取一个Map集合，map的key为作者名，value为List<Book>
+        List<Author> authors = getAuthors();
+
+        Map<String, List<Book>> map = authors.stream()
+                .distinct()
+                .collect(Collectors.toMap(author -> author.getName(), author -> author.getBooks()));
+
+        System.out.println(map);
+~~~~
 

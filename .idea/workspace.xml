@@ -4,7 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="67597704-e985-43ec-a394-5b92e65b00da" name="Changes" comment="" />
+    <list default="true" id="67597704-e985-43ec-a394-5b92e65b00da" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/img/image-20230314182554704.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/img/image-20230314184002953.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/img/image-20230314184311328.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/img/image-20230314184534140.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/img/image-20230314184734793.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/img/image-20230316110831099.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/src/main/java/com/yxyl/springboot/streamapi/Author.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/src/main/java/com/yxyl/springboot/streamapi/Book.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/src/main/java/com/yxyl/springboot/streamapi/StreamDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/src/main/java/com/yxyl/springboot/streamapi/common/distinct/DistinctDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/src/main/java/com/yxyl/springboot/streamapi/common/filter/FilterDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/src/main/java/com/yxyl/springboot/streamapi/common/limit/LimitDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/src/main/java/com/yxyl/springboot/streamapi/common/map/MapDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/src/main/java/com/yxyl/springboot/streamapi/common/sort/SortDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/src/main/java/com/yxyl/springboot/streamapi/finish/count/CountDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/src/main/java/com/yxyl/springboot/streamapi/finish/foreach/ForeachDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/src/main/java/com/yxyl/springboot/streamapi/finish/maxmin/MaxDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lesson7-SpringSecurity/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson7-SpringSecurity/README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,17 +59,23 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;11&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/yxyl/文档/GitHub/Courseware-Backend-Java-2022&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/yxyl/文档/GitHub/Courseware-Backend-Java-2022/Lesson7-SpringSecurity/img&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.12597656&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.25463918&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;e274fba88f3ae9ad6270d6840d59a0b2&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Lesson7-SpringSecurity/img" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -119,6 +145,10 @@
       <workItem from="1669171925557" duration="23000" />
       <workItem from="1669548000232" duration="6894000" />
       <workItem from="1678943607470" duration="79000" />
+      <workItem from="1679023574856" duration="1685000" />
+      <workItem from="1679027098590" duration="10000" />
+      <workItem from="1679318265716" duration="1004000" />
+      <workItem from="1679319957022" duration="924000" />
     </task>
     <servers />
   </component>
