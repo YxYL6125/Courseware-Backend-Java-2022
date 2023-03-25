@@ -190,22 +190,17 @@ private final RedisCache redisCache;
  @Override
     public UserResponse login(User user) {
         UsernamePasswordAuthenticationToken
-                authenticationToken = new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword());
+                authenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
-        //能到这里，说明数据库中是有这个用户的,但是还得判断password是否匹配
-        if (!passwordEncoder.matches(user.getPassword(),loginUser.getPassword())) {
-            //如果密码不匹配
-            throw new RuntimeException("密码错误");
-        }
+
+        String studentId = loginUser.getUser().getId().toString();
+
+        String token = JwtUtil.createJWT(studentId);
         
-        //获取userId
-        String userId = loginUser.getUser().getId().toString();
-        String token = JwtUtil.createJWT(userId);
-        //TODO 这里还可以吧loginUser信息放在Redis里面，方便以后的功能模块会用到
-        redisCache.setCacheObject(REDIS_KEY + userId, loginUser);
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        
+        //这里还可以吧loginUser信息放在Redis里面，方便以后的功能模块会用到
+        redisCache.setCacheObject(REDIS_KEY + studentId, loginUser, 30, TimeUnit.MINUTES);
+
         return new UserResponse(token, loginUser.getUser());
     }
 ```
@@ -240,12 +235,12 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         //在“认证授权管理器的认证”方法之前，先判断是否有这个用户
-        User user = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getId, id));
+        User user = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
         if (user == null) {
+            System.out.println("用户不存在");
             throw new UsernameNotFoundException("用户不存在");
         }
-        //TODO 用户权限(Role)封装
-
+        //TODO 查询权限信息封装
         return new LoginUser(user);
     }
 }
@@ -359,30 +354,30 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         //这里就是重写拦截方法
-        try {
-            //取出 header 中的 token 进行校验
-            String token = request.getHeader("token");
-            if (token != null && !"".equals(token)) {
-                //解析获取userId
-                Claims claims = JwtUtil.parseJWT(token);
-                String studentId = claims.getSubject();
-                //通过userID获取redis中的缓存信息
-                LoginUser loginUser = redisCache.getCacheObject(REDIS_KEY + studentId);
-                if (loginUser != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    //token失效了
-                    //刷新令牌
-                    redisCache.setCacheObject(REDIS_KEY + studentId, loginUser);
-                    //从redis中获取loginUse信息放到上下文中
-                    UsernamePasswordAuthenticationToken
-                            authenticationToken = new UsernamePasswordAuthenticationToken(loginUser.getUser().getId(), loginUser.getPassword());
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                }
-            }
-        } catch (Exception e) {
+        String token = request.getHeader("token");
+        if (null == token || "".equals(token)) {
+            // token不存在 放行 并且直接return 返回
             filterChain.doFilter(request, response);
             return;
         }
-        // 如果token为空直接下一步过滤器，此时上线文中无用户信息，所有在后续认证环节失败
+        // 解析toke
+        String userId = null;
+        try {
+            Claims claims = JwtUtil.parseJWT(token);
+            userId = claims.getSubject();
+        } catch (Exception e) {
+            throw new RuntimeException("token非法");
+        }
+        // 获取userid 从redis中获取用户信息
+        LoginUser loginUser = redisCache.getCacheObject(REDIS_KEY + userId);
+        if (Objects.isNull(loginUser)) {
+            throw new RuntimeException("用户未登录");
+        }
+
+        //将用户信息存入到SecurityContextHolder
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        // 放行
         filterChain.doFilter(request, response);
     }
 }
@@ -399,8 +394,6 @@ private JwtAuthenticationTokenFilter authenticationTokenFilter;
 		//...
         //添加前置过滤波器
         http.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-        http.formLogin()
-                .usernameParameter("id").disable();
 		//..
     }
 ```
@@ -430,6 +423,7 @@ Ok这个时候我们的拦截器就配置完成力
 ### 留个小作业
 
 1. 这里我们介绍了怎么通过Security进行认证的过程，请你下来自己研究授权的过程，比如哪些接口只能哪些角色的用户才能访问之类的……
+1. 梳理一下整个SpringSecurity的认证过程，以包括但不限于流程图的方式呈现
 
 
 
